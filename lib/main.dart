@@ -29,7 +29,7 @@ class MyStatelessWidget extends StatelessWidget {
         DataColumn(
           label: Expanded(
             child: Text(
-              'Name',
+              'State',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
           ),
@@ -37,7 +37,7 @@ class MyStatelessWidget extends StatelessWidget {
         DataColumn(
           label: Expanded(
             child: Text(
-              'Age',
+              'Log',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
           ),
@@ -45,7 +45,47 @@ class MyStatelessWidget extends StatelessWidget {
         DataColumn(
           label: Expanded(
             child: Text(
-              'Role',
+              'Summary',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Expanded(
+            child: Text(
+              'Repo',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Expanded(
+            child: Text(
+              'Revision',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Expanded(
+            child: Text(
+              'Pipeline',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Expanded(
+            child: Text(
+              'Started',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Expanded(
+            child: Text(
+              'Duration',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
           ),
@@ -56,18 +96,33 @@ class MyStatelessWidget extends StatelessWidget {
           cells: <DataCell>[
             DataCell(Text('Sarah')),
             DataCell(Text('19')),
+            DataCell(Text('19')),
+            DataCell(Text('19')),
+            DataCell(Text('19')),
+            DataCell(Text('19')),
+            DataCell(Text('19')),
             DataCell(Text('Student')),
           ],
         ),
         DataRow(
           cells: <DataCell>[
             DataCell(Text('Janine')),
+            DataCell(Text('19')),
+            DataCell(Text('19')),
+            DataCell(Text('19')),
+            DataCell(Text('19')),
+            DataCell(Text('19')),
             DataCell(Text('43')),
             DataCell(Text('Professor')),
           ],
         ),
         DataRow(
           cells: <DataCell>[
+            DataCell(Text('19')),
+            DataCell(Text('19')),
+            DataCell(Text('19')),
+            DataCell(Text('19')),
+            DataCell(Text('19')),
             DataCell(Text('William')),
             DataCell(Text('27')),
             DataCell(Text('Associate Professor')),
