@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
 
-void main() => runApp(const MyApp());
+import 'package:http/http.dart' as http;
+
+void main() {
+  HttpOverrides.global = new DebugHttpOverrides();
+  runApp(MyApp());
+}
+
+class DebugHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,18 +28,82 @@ class MyApp extends StatelessWidget {
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
-        body: const MyStatelessWidget(),
+        body: RestDataTable(apiUrl:Uri.https("127.0.0.1", "/apis/results.tekton.dev/v1alpha2/parents/default/results")),
       ),
     );
   }
 }
 
-class MyStatelessWidget extends StatelessWidget {
-  const MyStatelessWidget({super.key});
+class RestDataTable extends StatefulWidget {
+  final Uri apiUrl;
+
+  RestDataTable({required this.apiUrl});
 
   @override
+  _RestDataTableState createState() => _RestDataTableState();
+}
+
+class _RestDataTableState extends State<RestDataTable> {
+  late List<Map<String, dynamic>> _data;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  Future<void> _getData() async {
+    setState(() {
+      _isLoading = true;
+    });
+    final response = await http.get(widget.apiUrl);
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonData = jsonDecode(response.body);
+      print(jsonData);
+      //final Map<String, dynamic> record = jsonData['results'];
+      //print("record");
+      //print(record);
+      final List<dynamic> result = jsonData['results'];
+      print("result");
+      print(result);
+      setState(() {
+        _data = result.map((e) => e as Map<String, dynamic>).toList();
+        _isLoading = false;
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  List<DataRow> buildRow(List<Map<String, dynamic>> data) {
+      final rows = <DataRow>[];
+
+  // Add rows dynamically
+  for (var row in data) {
+    rows.add(
+      DataRow(cells: [
+        DataCell(Text(row["summary"]["status"].toString())),
+        DataCell(Text("")),
+        DataCell(Text(row["summary"].toString())),
+        DataCell(Text("")),
+        DataCell(Text("")),
+        DataCell(Text(row["uid"].toString())),
+        DataCell(Text(row["createTime"].toString())),
+        DataCell(Text("")),
+      ]),
+    );
+  }
+  return rows;
+  }
+  
+  @override
   Widget build(BuildContext context) {
-    return DataTable(
+    return _isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : DataTable(
       columns: const <DataColumn>[
         DataColumn(
           label: Expanded(
@@ -91,44 +170,8 @@ class MyStatelessWidget extends StatelessWidget {
           ),
         ),
       ],
-      rows: const <DataRow>[
-        DataRow(
-          cells: <DataCell>[
-            DataCell(Text('Sarah')),
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('Student')),
-          ],
-        ),
-        DataRow(
-          cells: <DataCell>[
-            DataCell(Text('Janine')),
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('43')),
-            DataCell(Text('Professor')),
-          ],
-        ),
-        DataRow(
-          cells: <DataCell>[
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('19')),
-            DataCell(Text('William')),
-            DataCell(Text('27')),
-            DataCell(Text('Associate Professor')),
-          ],
-        ),
-      ],
+      rows: buildRow(_data)
     );
   }
 }
+
