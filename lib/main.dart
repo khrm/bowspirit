@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 void main() {
-  HttpOverrides.global = new DebugHttpOverrides();
-  runApp(MyApp());
+  HttpOverrides.global = DebugHttpOverrides();
+  runApp(const MyApp());
 }
 
 class DebugHttpOverrides extends HttpOverrides{
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
 class RestDataTable extends StatefulWidget {
   final Uri apiUrl;
 
-  RestDataTable({required this.apiUrl});
+  const RestDataTable({required this.apiUrl});
 
   @override
   _RestDataTableState createState() => _RestDataTableState();
@@ -60,13 +60,7 @@ class _RestDataTableState extends State<RestDataTable> {
     final response = await http.get(widget.apiUrl);
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
-      print(jsonData);
-      //final Map<String, dynamic> record = jsonData['results'];
-      //print("record");
-      //print(record);
       final List<dynamic> result = jsonData['results'];
-      print("result");
-      print(result);
       setState(() {
         _data = result.map((e) => e as Map<String, dynamic>).toList();
         _isLoading = false;
@@ -100,7 +94,7 @@ class _RestDataTableState extends State<RestDataTable> {
   @override
   Widget build(BuildContext context) {
     return _isLoading
-        ? Center(
+        ? const Center(
             child: CircularProgressIndicator(),
           )
         : DataTable(
