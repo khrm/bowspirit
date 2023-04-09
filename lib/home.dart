@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'routes.dart';
-
 
 class RestDataTable extends StatefulWidget {
   final Uri apiUrl;
@@ -43,107 +42,105 @@ class _RestDataTableState extends State<RestDataTable> {
   }
 
   List<DataRow> buildRow(List<Map<String, dynamic>> data) {
-      final rows = <DataRow>[];
+    final rows = <DataRow>[];
 
-  // Add rows dynamically
-  for (var row in data) {
-    rows.add(
-      DataRow(cells: [
-        DataCell(Text(row["summary"]["status"].toString())),
-        DataCell(Text("")),
-        DataCell(ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(MetadataRoute(row["summary"]["record"].toString()));
-          },
-          child: const Text('Pipelinerun!'),
-        ),),
-        DataCell(Text("")),
-        DataCell(Text("")),
-        DataCell(Text(row["uid"].toString())),
-        DataCell(Text(row["createTime"].toString())),
-        DataCell(Text("")),
-      ]),
-    );
+    // Add rows dynamically
+    for (var row in data) {
+      rows.add(
+        DataRow(cells: [
+          DataCell(Text(row["summary"]["status"].toString())),
+          DataCell(Text("")),
+          DataCell(
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MetadataRoute(row["summary"]["record"].toString()));
+              },
+              child: const Text('Pipelinerun!'),
+            ),
+          ),
+          DataCell(Text("")),
+          DataCell(Text("")),
+          DataCell(Text(row["uid"].toString())),
+          DataCell(Text(row["createTime"].toString())),
+          DataCell(Text("")),
+        ]),
+      );
+    }
+    return rows;
   }
-  return rows;
-  }
-  
+
   @override
   Widget build(BuildContext context) {
     return _isLoading
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : DataTable(
-      columns: const <DataColumn>[
-        DataColumn(
-          label: Expanded(
-            child: Text(
-              'State',
-              style: TextStyle(fontStyle: FontStyle.italic),
+        : DataTable(columns: const <DataColumn>[
+            DataColumn(
+              label: Expanded(
+                child: Text(
+                  'State',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
             ),
-          ),
-        ),
-        DataColumn(
-          label: Expanded(
-            child: Text(
-              'Log',
-              style: TextStyle(fontStyle: FontStyle.italic),
+            DataColumn(
+              label: Expanded(
+                child: Text(
+                  'Log',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
             ),
-          ),
-        ),
-        DataColumn(
-          label: Expanded(
-            child: Text(
-              'Metadata',
-              style: TextStyle(fontStyle: FontStyle.italic),
+            DataColumn(
+              label: Expanded(
+                child: Text(
+                  'Metadata',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
             ),
-          ),
-        ),
-        DataColumn(
-          label: Expanded(
-            child: Text(
-              'Repo',
-              style: TextStyle(fontStyle: FontStyle.italic),
+            DataColumn(
+              label: Expanded(
+                child: Text(
+                  'Repo',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
             ),
-          ),
-        ),
-        DataColumn(
-          label: Expanded(
-            child: Text(
-              'Revision',
-              style: TextStyle(fontStyle: FontStyle.italic),
+            DataColumn(
+              label: Expanded(
+                child: Text(
+                  'Revision',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
             ),
-          ),
-        ),
-        DataColumn(
-          label: Expanded(
-            child: Text(
-              'Pipeline',
-              style: TextStyle(fontStyle: FontStyle.italic),
+            DataColumn(
+              label: Expanded(
+                child: Text(
+                  'Pipeline',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
             ),
-          ),
-        ),
-        DataColumn(
-          label: Expanded(
-            child: Text(
-              'Started',
-              style: TextStyle(fontStyle: FontStyle.italic),
+            DataColumn(
+              label: Expanded(
+                child: Text(
+                  'Started',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
             ),
-          ),
-        ),
-        DataColumn(
-          label: Expanded(
-            child: Text(
-              'Duration',
-              style: TextStyle(fontStyle: FontStyle.italic),
+            DataColumn(
+              label: Expanded(
+                child: Text(
+                  'Duration',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
-      rows: buildRow(_data)
-    );
+          ], rows: buildRow(_data));
   }
 }
-
-

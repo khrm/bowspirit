@@ -4,7 +4,9 @@ import 'metadata.dart';
 
 Route MetadataRoute(String url) {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => Metadata(url: Uri.https("127.0.0.1", "/apis/results.tekton.dev/v1alpha2/parents/$url")),
+    pageBuilder: (context, animation, secondaryAnimation) => Metadata(
+        url: Uri.https(
+            "127.0.0.1", "/apis/results.tekton.dev/v1alpha2/parents/$url")),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
       const end = Offset.zero;
