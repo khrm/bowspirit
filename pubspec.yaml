@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.5
   json2yaml: ^3.0.1
+  any_syntax_highlighter: ^0.0.13
 
 dev_dependencies:
   flutter_test:
