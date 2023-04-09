@@ -33,7 +33,8 @@ class _MetadataState extends State<Metadata> {
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
       setState(() {
         _data = jsonData;
-        _file =  utf8.decode(base64.decode( _data["data"]["value"].toString()));
+        var jsonFile = json.decode(utf8.decode(base64.decode( _data["data"]["value"].toString())));
+        _file =  json2yaml(jsonFile);
         _isLoading = false;
       });
     } else {
@@ -50,8 +51,11 @@ class _MetadataState extends State<Metadata> {
         : Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Text("${_file}"),
+        child:SingleChildScrollView(
+
+        child: SelectableText("${_file}"),
       ),
+    )
     );
   }
 
