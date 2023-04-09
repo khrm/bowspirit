@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import 'routes.dart';
+
 
 class RestDataTable extends StatefulWidget {
   final Uri apiUrl;
@@ -49,7 +51,12 @@ class _RestDataTableState extends State<RestDataTable> {
       DataRow(cells: [
         DataCell(Text(row["summary"]["status"].toString())),
         DataCell(Text("")),
-        DataCell(Text(row["summary"].toString())),
+        DataCell(ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).push(MetadataRoute(row["summary"]["record"].toString()));
+          },
+          child: const Text('Pipelinerun!'),
+        ),),
         DataCell(Text("")),
         DataCell(Text("")),
         DataCell(Text(row["uid"].toString())),
@@ -88,7 +95,7 @@ class _RestDataTableState extends State<RestDataTable> {
         DataColumn(
           label: Expanded(
             child: Text(
-              'Summary',
+              'Metadata',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
           ),
