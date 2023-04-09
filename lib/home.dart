@@ -49,7 +49,15 @@ class _RestDataTableState extends State<RestDataTable> {
       rows.add(
         DataRow(cells: [
           DataCell(Text(row["summary"]["status"].toString())),
-          DataCell(Text("")),
+          DataCell(
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(LogRoute(row["summary"]["record"].toString()));
+              },
+              child: const Text('Logs!'),
+            ),
+          ),
           DataCell(
             ElevatedButton(
               onPressed: () {
