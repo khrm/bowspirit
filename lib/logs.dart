@@ -38,7 +38,10 @@ class _LogState extends State<Log> {
         _isLoading = false;
       });
     } else {
-      throw Exception('Failed to load data');
+      setState(() {
+        _logs = 'Failed to load data';
+        _isLoading = false;
+      });
     }
   }
 

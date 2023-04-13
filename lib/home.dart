@@ -64,7 +64,7 @@ class _RestDataTableState extends State<RestDataTable> {
                 Navigator.of(context)
                     .push(MetadataRoute(row["summary"]["record"].toString()));
               },
-              child: const Text('Pipelinerun!'),
+              child: const Text('Pipelinerun.yaml'),
             ),
           ),
           DataCell(Text("")),
